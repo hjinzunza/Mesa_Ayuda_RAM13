@@ -1,0 +1,262 @@
+
+:root {
+    --azul-oscuro: #10243a;
+    --azul: #174a75;
+    --celeste: #1e9bd1;
+    --fondo: #f4f7fb;
+    --texto: #263445;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 75px;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--texto);
+    background: #ffffff;
+}
+
+.barra-navegacion {
+    background: var(--azul-oscuro);
+    padding: 15px 0;
+}
+
+.navbar-brand {
+    font-size: 1.7rem;
+    letter-spacing: 1px;
+}
+
+.nav-link {
+    color: #ffffff !important;
+    margin-left: 12px;
+}
+
+.nav-link:hover {
+    color: #55c5f0 !important;
+}
+
+.portada {
+    background: linear-gradient(115deg, #10243a, #17618f);
+    color: white;
+    padding: 105px 0;
+}
+
+.etiqueta-portada,
+.subtitulo {
+    color: var(--celeste);
+    font-size: 0.82rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.portada h1 {
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 800;
+    margin: 15px 0;
+    max-width: 800px;
+}
+
+.texto-portada {
+    color: #e0edf6;
+    font-size: 1.15rem;
+    max-width: 650px;
+    line-height: 1.7;
+    margin-bottom: 28px;
+}
+
+.btn-principal {
+    background: var(--celeste);
+    color: #ffffff;
+    border: 2px solid var(--celeste);
+    padding: 11px 22px;
+    font-weight: bold;
+    border-radius: 7px;
+}
+
+.btn-principal:hover {
+    background: #147eae;
+    border-color: #147eae;
+    color: white;
+}
+
+.seccion-estadisticas {
+    background: var(--fondo);
+    padding: 35px 0;
+}
+
+.tarjeta-estadistica {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 3px 15px rgba(16, 36, 58, 0.07);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.tarjeta-estadistica .numero {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: var(--azul);
+}
+
+.texto-pendiente {
+    color: #d18a16 !important;
+}
+
+.texto-resuelto {
+    color: #198754 !important;
+}
+
+.seccion {
+    padding: 75px 0;
+}
+
+.encabezado-seccion {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.encabezado-seccion h2,
+.contacto h2 {
+    color: var(--azul-oscuro);
+    font-weight: 800;
+    margin: 10px 0;
+}
+
+.encabezado-seccion p {
+    color: #64748b;
+}
+
+.formulario-contenedor,
+.tabla-contenedor {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(16, 36, 58, 0.08);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--azul-oscuro);
+}
+
+.form-control,
+.form-select {
+    padding: 11px;
+    border-color: #d7e0e9;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--celeste);
+    box-shadow: 0 0 0 0.2rem rgba(30, 155, 209, 0.15);
+}
+
+.mensaje-formulario {
+    font-weight: 600;
+}
+
+.seccion-alternativa {
+    background: var(--fondo);
+}
+
+.table thead th {
+    background: var(--azul-oscuro);
+    color: #ffffff;
+    white-space: nowrap;
+    padding: 14px;
+}
+
+.table tbody td {
+    padding: 13px;
+}
+
+.estado {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.estado-pendiente {
+    color: #805600;
+    background: #fff0c2;
+}
+
+.estado-proceso {
+    color: #075985;
+    background: #d9f1ff;
+}
+
+.estado-resuelto {
+    color: #146c43;
+    background: #d8f3e5;
+}
+
+.prioridad {
+    font-weight: bold;
+}
+
+.prioridad-alta {
+    color: #c0392b;
+}
+
+.prioridad-media {
+    color: #bd7a00;
+}
+
+.prioridad-baja {
+    color: #198754;
+}
+
+.contacto {
+    background: #ffffff;
+}
+
+.contacto p {
+    max-width: 650px;
+    margin: 15px auto 25px;
+    color: #64748b;
+    line-height: 1.7;
+}
+
+.pie-pagina {
+    background: var(--azul-oscuro);
+    color: #ffffff;
+    padding: 35px 0;
+}
+
+.pie-pagina h3 {
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.pie-pagina p {
+    color: #d2dfeb;
+    margin-bottom: 7px;
+}
+
+@media (max-width: 767px) {
+    .portada {
+        padding: 75px 0;
+    }
+
+    .portada .btn {
+        margin: 5px 0;
+    }
+
+    .seccion {
+        padding: 55px 0;
+    }
+
+    .formulario-contenedor,
+    .tabla-contenedor {
+        padding: 17px;
+    }
+}

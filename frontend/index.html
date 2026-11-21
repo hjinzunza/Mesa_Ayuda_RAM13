@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RAM13 - Sistema de mesa de ayuda informática para registrar y consultar solicitudes de soporte.">
+    <title>RAM13 | Mesa de Ayuda Informática</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark barra-navegacion">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="#inicio">RAM13</a>
+
+                <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
+                    aria-controls="menuPrincipal" aria-expanded="false"
+                    aria-label="Abrir menú">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="menuPrincipal">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#inicio">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#registrar">Registrar solicitud</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#consultar">Consultar solicitudes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contacto">Contacto</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="inicio" class="portada">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <p class="etiqueta-portada">SOPORTE Y ASISTENCIA TECNOLÓGICA</p>
+                        <h1>RAM13 – Mesa de Ayuda Informática</h1>
+                        <p class="texto-portada">
+                            Gestionamos tus solicitudes de soporte tecnológico
+                            de manera sencilla, rápida y organizada.
+                        </p>
+                        <a href="#registrar" class="btn btn-principal">
+                            Registrar una solicitud
+                        </a>
+                        <a href="#consultar" class="btn btn-outline-light ms-2">
+                            Ver solicitudes
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="seccion-estadisticas">
+            <div class="container">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="tarjeta-estadistica">
+                            <span class="numero" id="totalSolicitudes">0</span>
+                            <span>Total de solicitudes</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="tarjeta-estadistica">
+                            <span class="numero texto-pendiente" id="totalPendientes">0</span>
+                            <span>Pendientes</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="tarjeta-estadistica">
+                            <span class="numero texto-resuelto" id="totalResueltas">0</span>
+                            <span>Resueltas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="registrar" class="seccion">
+            <div class="container">
+                <div class="encabezado-seccion">
+                    <span class="subtitulo">ATENCIÓN INFORMÁTICA</span>
+                    <h2>Registrar una solicitud</h2>
+                    <p>Completa los datos para informar un problema tecnológico.</p>
+                </div>
+
+                <div class="formulario-contenedor">
+                    <form id="formularioSolicitud">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="nombre" class="form-label">Nombre del trabajador *</label>
+                                <input type="text" class="form-control" id="nombre"
+                                    maxlength="100" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="departamento" class="form-label">Departamento</label>
+                                <input type="text" class="form-control" id="departamento"
+                                    maxlength="80">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="tipoProblema" class="form-label">Tipo de problema *</label>
+                                <select class="form-select" id="tipoProblema" required>
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="Computador">Computador</option>
+                                    <option value="Internet">Internet</option>
+                                    <option value="Impresora">Impresora</option>
+                                    <option value="Software">Software</option>
+                                    <option value="Correo electrónico">Correo electrónico</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="prioridad" class="form-label">Prioridad</label>
+                                <select class="form-select" id="prioridad">
+                                    <option value="Baja">Baja</option>
+                                    <option value="Media" selected>Media</option>
+                                    <option value="Alta">Alta</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="descripcion" class="form-label">Descripción del problema *</label>
+                                <textarea class="form-control" id="descripcion"
+                                    rows="4" maxlength="2000"
+                                    placeholder="Describe brevemente el problema..." required></textarea>
+                            </div>
+
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-principal" id="botonEnviar">
+                                    Enviar solicitud
+                                </button>
+                                <p class="mensaje-formulario mt-3" id="mensajeFormulario"
+                                    role="status" aria-live="polite"></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="consultar" class="seccion seccion-alternativa">
+            <div class="container">
+                <div class="encabezado-seccion">
+                    <span class="subtitulo">SEGUIMIENTO</span>
+                    <h2>Consultar solicitudes</h2>
+                    <p>Revisa las solicitudes registradas y su estado de atención.</p>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-8">
+                        <label for="busqueda" class="form-label">Buscar solicitud</label>
+                        <input type="search" class="form-control" id="busqueda"
+                            placeholder="Buscar por trabajador, departamento o problema...">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="filtroEstado" class="form-label">Filtrar por estado</label>
+                        <select class="form-select" id="filtroEstado">
+                            <option value="">Todos los estados</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En proceso">En proceso</option>
+                            <option value="Resuelto">Resuelto</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="mensajeCarga" class="alert alert-info" role="status">
+                    Cargando solicitudes...
+                </div>
+
+                <div class="tabla-contenedor">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>N.º</th>
+                                    <th>Trabajador</th>
+                                    <th>Departamento</th>
+                                    <th>Problema</th>
+                                    <th>Prioridad</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaSolicitudes">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <p id="sinResultados" class="text-center mt-4 d-none">
+                    No se encontraron solicitudes.
+                </p>
+            </div>
+        </section>
+
+        <section id="contacto" class="seccion contacto">
+            <div class="container text-center">
+                <span class="subtitulo">ESTAMOS PARA AYUDARTE</span>
+                <h2>¿Necesitas asistencia informática?</h2>
+                <p>
+                    Registra tu solicitud en RAM13 y nuestro equipo podrá
+                    revisar y gestionar tu requerimiento.
+                </p>
+                <a href="#registrar" class="btn btn-principal">
+                    Solicitar soporte
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="pie-pagina">
+        <div class="container text-center">
+            <h3>RAM13</h3>
+            <p>Mesa de Ayuda Informática</p>
+            <p class="mb-0">© 2026 RAM13. Proyecto académico INF211.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
