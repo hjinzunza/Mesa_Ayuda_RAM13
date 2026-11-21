@@ -80,34 +80,40 @@ function mostrarSolicitudes() {
         celdas.forEach((valor, indice) => {
             const celda = document.createElement('td');
 
+            // Prioridad
             if (indice === 4) {
                 const prioridad = document.createElement('span');
                 prioridad.className = 'prioridad ' + clasePrioridad(valor);
                 prioridad.textContent = valor;
                 celda.appendChild(prioridad);
+
+            // Estado modificable
             } else if (indice === 5) {
-    const selector = document.createElement('select');
+                const selector = document.createElement('select');
 
-    selector.className = 'form-select form-select-sm';
-    selector.style.minWidth = '125px';
+                selector.className = 'form-select form-select-sm';
+                selector.style.minWidth = '125px';
 
-    ['Pendiente', 'En proceso', 'Resuelto'].forEach(opcion => {
-        const elemento = document.createElement('option');
-        elemento.value = opcion;
-        elemento.textContent = opcion;
+                ['Pendiente', 'En proceso', 'Resuelto'].forEach(opcion => {
+                    const elemento = document.createElement('option');
+                    elemento.value = opcion;
+                    elemento.textContent = opcion;
+                    elemento.selected = opcion === valor;
 
-        if (opcion === valor) {
-            elemento.selected = true;
-        }
+                    selector.appendChild(elemento);
+                });
 
-        selector.appendChild(elemento);
-    });
+                selector.addEventListener('change', async () => {
+                    selector.disabled = true;
+                    await actualizarEstado(
+                        solicitud.id_solicitud,
+                        selector.value
+                    );
+                    selector.disabled = false;
+                });
 
-    selector.addEventListener('change', () => {
-        actualizarEstado(solicitud.id_solicitud, selector.value);
-    });
+                celda.appendChild(selector);
 
-    celda.appendChild(selector);
             } else {
                 celda.textContent = valor ?? '';
             }
@@ -182,12 +188,15 @@ formulario.addEventListener('submit', async function(evento) {
         const resultado = await respuesta.json();
 
         if (!respuesta.ok) {
-            throw new Error(resultado.error || 'No se pudo registrar la solicitud.');
+            throw new Error(
+                resultado.error || 'No se pudo registrar la solicitud.'
+            );
         }
 
         mensajeFormulario.textContent =
             '¡Solicitud registrada correctamente!';
-        mensajeFormulario.className = 'mensaje-formulario mt-3 text-success';
+        mensajeFormulario.className =
+            'mensaje-formulario mt-3 text-success';
 
         formulario.reset();
 
@@ -195,15 +204,17 @@ formulario.addEventListener('submit', async function(evento) {
 
     } catch (error) {
         mensajeFormulario.textContent = error.message;
-        mensajeFormulario.className = 'mensaje-formulario mt-3 text-danger';
+        mensajeFormulario.className =
+            'mensaje-formulario mt-3 text-danger';
         console.error(error);
+
     } finally {
         botonEnviar.disabled = false;
         botonEnviar.textContent = 'Enviar solicitud';
     }
 });
 
-// Cambiar el estado de una solicitud
+// Cambiar el estado de una solicitud en PostgreSQL
 async function actualizarEstado(id, nuevoEstado) {
     try {
         const respuesta = await fetch(
@@ -220,12 +231,14 @@ async function actualizarEstado(id, nuevoEstado) {
         const resultado = await respuesta.json();
 
         if (!respuesta.ok) {
-            throw new Error(resultado.error || 'No se pudo actualizar el estado');
+            throw new Error(
+                resultado.error || 'No se pudo actualizar el estado.'
+            );
         }
 
         await cargarSolicitudes();
 
-        alert('Estado actualizado correctamente');
+        alert('Estado actualizado correctamente.');
 
     } catch (error) {
         alert(error.message);
