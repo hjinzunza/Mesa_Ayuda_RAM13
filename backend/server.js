@@ -5,11 +5,9 @@ const { Pool } = require('pg');
 require('dotenv').config();
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 
-// Conexión a PostgreSQL
 const db = new Pool({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -18,15 +16,32 @@ const db = new Pool({
     password: process.env.DB_PASSWORD
 });
 
-// Comprobar conexión
-db.connect()
-    .then(client => {
-        console.log('Conexión con PostgreSQL exitosa');
-        client.release();
-    })
-    .catch(error => {
-        console.error('Error al conectar con PostgreSQL:', error.message);
-    });
+// Crear automáticamente la tabla si no existe
+async function iniciarServidor() {
+    try {
+        await db.query(`
+            CREATE TABLE IF NOT EXISTS public.solicitudes_soporte (
+                id_solicitud SERIAL PRIMARY KEY,
+                nombre_trabajador VARCHAR(150) NOT NULL,
+                departamento VARCHAR(150),
+                tipo_problema VARCHAR(100) NOT NULL,
+                descripcion TEXT NOT NULL,
+                prioridad VARCHAR(20) DEFAULT 'Media',
+                estado VARCHAR(30) DEFAULT 'Pendiente',
+                fecha_creacion TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+            )
+        `);
+
+        console.log('Tabla solicitudes_soporte lista');
+
+        const PORT = process.env.PORT || 3000;
+        app.listen(PORT, () => {
+            console.log(`Servidor RAM13 funcionando en puerto ${PORT}`);
+        });
+    } catch (error) {
+        console.error('ERROR AL INICIAR:', error.message);
+    }
+}
 
 // Consultar solicitudes
 app.get('/api/solicitudes', async (req, res) => {
@@ -34,18 +49,14 @@ app.get('/api/solicitudes', async (req, res) => {
         const resultado = await db.query(
             'SELECT * FROM solicitudes_soporte ORDER BY fecha_creacion DESC'
         );
-
         res.json(resultado.rows);
-
     } catch (error) {
         console.error('ERROR AL CONSULTAR:', error.message);
-        res.status(500).json({
-            error: 'Error al consultar las solicitudes'
-        });
+        res.status(500).json({ error: 'Error al consultar las solicitudes' });
     }
 });
 
-// Registrar una nueva solicitud
+// Registrar solicitud
 app.post('/api/solicitudes', async (req, res) => {
     try {
         const {
@@ -77,27 +88,19 @@ app.post('/api/solicitudes', async (req, res) => {
         );
 
         res.status(201).json(resultado.rows[0]);
-
     } catch (error) {
         console.error('ERROR AL REGISTRAR:', error.message);
-
-        res.status(500).json({
-            error: 'Error al registrar la solicitud'
-        });
+        res.status(500).json({ error: 'Error al registrar la solicitud' });
     }
 });
 
-// Actualizar el estado de una solicitud
+// Actualizar estado
 app.put('/api/solicitudes/:id/estado', async (req, res) => {
     try {
         const { estado } = req.body;
         const { id } = req.params;
 
-        const estadosPermitidos = [
-            'Pendiente',
-            'En proceso',
-            'Resuelto'
-        ];
+        const estadosPermitidos = ['Pendiente', 'En proceso', 'Resuelto'];
 
         if (!estadosPermitidos.includes(estado)) {
             return res.status(400).json({
@@ -120,20 +123,14 @@ app.put('/api/solicitudes/:id/estado', async (req, res) => {
         }
 
         res.json(resultado.rows[0]);
-
     } catch (error) {
         console.error('ERROR AL ACTUALIZAR:', error.message);
-
         res.status(500).json({
             error: 'No se pudo actualizar el estado'
         });
     }
 });
 
-// Iniciar servidor
-const PORT = process.env.PORT || 3000;
+iniciarServidor();
 
-app.listen(PORT, () => {
-    console.log(`Servidor RAM13 funcionando en http://localhost:${PORT}`);
-});
 
