@@ -34,9 +34,14 @@ app.get('/api/solicitudes', async (req, res) => {
         const resultado = await db.query(
             'SELECT * FROM solicitudes_soporte ORDER BY fecha_creacion DESC'
         );
+
         res.json(resultado.rows);
+
     } catch (error) {
-        res.status(500).json({ error: 'Error al consultar las solicitudes' });
+        console.error('ERROR AL CONSULTAR:', error.message);
+        res.status(500).json({
+            error: 'Error al consultar las solicitudes'
+        });
     }
 });
 
@@ -72,8 +77,13 @@ app.post('/api/solicitudes', async (req, res) => {
         );
 
         res.status(201).json(resultado.rows[0]);
+
     } catch (error) {
-        res.status(500).json({ error: 'Error al registrar la solicitud' });
+        console.error('ERROR AL REGISTRAR:', error.message);
+
+        res.status(500).json({
+            error: 'Error al registrar la solicitud'
+        });
     }
 });
 
@@ -83,7 +93,11 @@ app.put('/api/solicitudes/:id/estado', async (req, res) => {
         const { estado } = req.body;
         const { id } = req.params;
 
-        const estadosPermitidos = ['Pendiente', 'En proceso', 'Resuelto'];
+        const estadosPermitidos = [
+            'Pendiente',
+            'En proceso',
+            'Resuelto'
+        ];
 
         if (!estadosPermitidos.includes(estado)) {
             return res.status(400).json({
@@ -108,14 +122,18 @@ app.put('/api/solicitudes/:id/estado', async (req, res) => {
         res.json(resultado.rows[0]);
 
     } catch (error) {
-        console.error('Error al actualizar el estado:', error.message);
+        console.error('ERROR AL ACTUALIZAR:', error.message);
+
         res.status(500).json({
             error: 'No se pudo actualizar el estado'
         });
     }
 });
+
+// Iniciar servidor
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Servidor RAM13 funcionando en http://localhost:${PORT}`);
 });
+
